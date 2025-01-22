@@ -18,6 +18,8 @@
  #define CMD_INDUCTANCE    'I' //!< motor phase inductance
  #define CMD_KV_RATING 'K' //!< motor kv rating
  #define CMD_PWMMOD   'W' //!< pwm modulation
+ #define CMD_RESETMOTOR   '!'
+
 
  // commander configuration
  #define CMD_SCAN    '?' //!< command scaning the network - only for commander

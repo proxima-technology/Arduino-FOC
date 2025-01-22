@@ -144,7 +144,7 @@ void Commander::motor(FOCMotor* motor, char* user_command) {
       else pid(&motor->PID_velocity, &user_command[1]);
       break;
     case CMD_A_PID:      //
-      printVerbose(F("PID angle| "));
+      printVerbose(F("PID ang| "));
       if(sub_cmd == SCMD_LPF_TF) lpf(&motor->LPF_angle, &user_command[1]);
       else pid(&motor->P_angle, &user_command[1]);
       break;
@@ -296,7 +296,7 @@ void Commander::motor(FOCMotor* motor, char* user_command) {
               println(motor->shaft_velocity);
               break;
             case 6: // get angle
-              printVerbose(F("angle: "));
+              printVerbose(F("ang: "));
               println(motor->shaft_angle);
               break;
             case 7: // get all states
@@ -310,6 +310,13 @@ void Commander::motor(FOCMotor* motor, char* user_command) {
               print(motor->current.q);
               print(";");
               print(motor->current.d);
+              print(";");
+              print(motor->shaft_velocity);
+              print(";");
+              println(motor->shaft_angle);
+              break;
+            case 8: // coordinate states
+              print(motor->current.q);
               print(";");
               print(motor->shaft_velocity);
               print(";");
@@ -354,6 +361,11 @@ void Commander::motor(FOCMotor* motor, char* user_command) {
           break;
        }
       break;
+    case CMD_RESETMOTOR:
+      printVerbose(F("motor: "));
+      motor->reset_flag = true;
+      println(F("reset"));
+      break;
     default:  // unknown cmd
       printVerbose(F("unknown cmd "));
       printError();
@@ -393,7 +405,7 @@ void Commander::motion(FOCMotor* motor, char* user_cmd, char* separator){
               println(F("vel open"));
               break;
             case MotionControlType::angle_openloop:
-              println(F("angle open"));
+              println(F("ang open"));
               break;
           }
             break;
@@ -508,6 +520,8 @@ void Commander::target(FOCMotor* motor,  char* user_cmd, char* separator){
     case MotionControlType::torque: // setting torque target
       torque = atof(strtok (user_cmd, separator));
       motor->target = torque;
+      // printVerbose(F("Cq: "));
+      // println(motor->current.q);
       break;
     case MotionControlType::velocity: // setting velocity target + torque limit
       // set the target
@@ -523,6 +537,8 @@ void Commander::target(FOCMotor* motor,  char* user_cmd, char* separator){
         if(!_isset(motor->phase_resistance) && motor->torque_controller == TorqueControlType::voltage) motor->voltage_limit = torque;
         else  motor->current_limit = torque;
       }
+      // printVerbose(F("vel: "));
+      // println(motor->shaft_velocity);
       break;
     case MotionControlType::angle: // setting angle target + torque, velocity limit
       // setting the target position
@@ -546,6 +562,8 @@ void Commander::target(FOCMotor* motor,  char* user_cmd, char* separator){
           else  motor->current_limit = torque;
         }
       }
+      // printVerbose(F("ang: "));
+      // println(motor->shaft_angle);
       break;
     case MotionControlType::velocity_openloop: // setting velocity target + torque limit
       // set the target
@@ -581,8 +599,8 @@ void Commander::target(FOCMotor* motor,  char* user_cmd, char* separator){
       }
       break;
   }
-  printVerbose(F("Target: "));
-  println(motor->target);
+  print(motor->target);
+  println(" ");
 }
 
 
