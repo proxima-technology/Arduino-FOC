@@ -12,6 +12,7 @@
  *
  */
 #include "SimpleFOC.h"
+#include "src/git-version.h"
 
 // DRV8302 pins connections
 // don't forget to connect the common ground pin
@@ -58,7 +59,7 @@ void onMotor(char* cmd) {
 
 void setup() {
   Serial.begin(921600);
-
+  Serial.println(GIT_VERSION);
   pinMode(SUPPLY_VOLTAGE, INPUT);
 
   //Waiting vlotage supply
