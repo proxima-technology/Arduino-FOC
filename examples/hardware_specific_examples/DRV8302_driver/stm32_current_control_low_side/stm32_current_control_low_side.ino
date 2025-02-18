@@ -59,7 +59,7 @@ void onMotor(char* cmd) {
 
 void setup() {
   Serial.begin(921600);
-  Serial.println(GIT_VERSION);
+  Serial.println(GIT_VERSION)
   pinMode(SUPPLY_VOLTAGE, INPUT);
 
   //Waiting vlotage supply
