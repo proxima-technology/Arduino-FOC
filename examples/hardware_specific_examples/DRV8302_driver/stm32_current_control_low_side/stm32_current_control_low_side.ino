@@ -59,7 +59,9 @@ void onMotor(char* cmd) {
 
 void setup() {
   Serial.begin(921600);
-  Serial.println(GIT_VERSION);
+  char *git_version = GIT_VERSION;
+  SimpleFOCDebug::enable();
+
   pinMode(SUPPLY_VOLTAGE, INPUT);
 
   //Waiting vlotage supply
@@ -74,6 +76,9 @@ void setup() {
   //"Check communication"
   Serial.println("Check communication");
   while(1){
+    if(Serial.read() == 'V'){
+      Serial.println(GIT_VERSION);
+    }
     if(Serial.read() == 'R'){
       break;
     }
