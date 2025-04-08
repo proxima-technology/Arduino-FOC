@@ -120,7 +120,7 @@ void setup() {
   // driver config
   // power supply voltage [V]
   driver.voltage_power_supply = 24;
-  driver.pwm_frequency = 18000;  // suggested under 18khz
+  driver.pwm_frequency = 36000;  // suggested under 18khz
   driver.init();
   // link the motor and the driver
   motor.linkDriver(&driver);
@@ -128,7 +128,7 @@ void setup() {
   cs.linkDriver(&driver);
 
   // align voltage
-  motor.voltage_sensor_align = 0.5;
+  motor.voltage_sensor_align = 1;
 
   // control loop type and torque mode
   motor.torque_controller = TorqueControlType::foc_current;
