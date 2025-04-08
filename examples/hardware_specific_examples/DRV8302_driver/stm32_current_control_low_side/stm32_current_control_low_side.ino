@@ -76,13 +76,15 @@ void setup() {
   //"Check communication"
   Serial.println("Check communication");
   while(1){
-    if(Serial.read() == 'V'){
-      Serial.println(GIT_VERSION);
-    }
-    if(Serial.read() == 'R'){
-      break;
-    }
     delay(10);
+    if (Serial.available()>0){
+      char com = Serial.read();
+      if(com == 'V'){
+        Serial.println(GIT_VERSION);
+      }else if(com == 'R'){
+        break;
+      }
+    }
   }
 
   //Recheck the supply voltage
